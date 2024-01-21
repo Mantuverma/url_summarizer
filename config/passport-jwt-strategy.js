@@ -2,7 +2,7 @@ import passport from 'passport';
 import JWT from 'passport-jwt';
 import User from '../models/user.js';
 const JWTStrategy = JWT.Strategy;
-const ExtractJwt = JWT.ExtractJwt; 
+const ExtractJwt = JWT.ExtractJwt;
 
 let opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -10,10 +10,10 @@ let opts = {
     passReqToCallback: true
 }
 
-passport.use(new JWTStrategy(opts, async function(req, JWTPayload, done) {
+passport.use(new JWTStrategy(opts, async function (req, JWTPayload, done) {
     try {
         const user = await User.findById(JWTPayload._id);
-        
+
         if (user) {
             req.user = user;
             return done(null, user);
@@ -25,5 +25,7 @@ passport.use(new JWTStrategy(opts, async function(req, JWTPayload, done) {
         return done(err, false);
     }
 }));
+
+// middleware
 
 export default passport;
